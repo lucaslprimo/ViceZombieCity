@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: b3e3bf9440c2848e1a7637bdc86609e8
+ModelImporter:
+  serializedVersion: 20101
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glock18 - Blanc
+    second: {fileID: 2100000, guid: 0c3a4835de03e4fe5a39764215703dff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glock18 - Gris
+    second: {fileID: 2100000, guid: 31d469921653041a18db9e2cf25ac1ea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glock18 - Noir
+    second: {fileID: 2100000, guid: c928bc585c7ea44e7842debc91c72a7d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glock18 - Or
+    second: {fileID: 2100000, guid: 8d67ef3af570b4c12996dd0fba26e375, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glock18 - Viseur
+    second: {fileID: 2100000, guid: 33acd74877a31490a85088cec694ec18, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Mat\xE9riau"
+    second: {fileID: 2100000, guid: 1a3833bd944404814a7d0fb44cf3c786, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Mat\xE9riau.001"
+    second: {fileID: 2100000, guid: 188baf95a64444fc6ab700d7f22a6d2d, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: _lock18(Clone)
+      parentName: 
+      position: {x: -0.05241349, y: -0.29321134, z: -0.12610313}
+      rotation: {x: 0.00000001545431, y: -0.7071067, z: 0.000000015454306, w: 0.7071068}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Bouton
+      parentName: _lock18(Clone)
+      position: {x: 0.001059718, y: -0.00004539365, z: 0.0004406368}
+      rotation: {x: 0.000000059604645, y: -0.00000011920929, z: -0.000000051658, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Chargeur_2
+      parentName: _lock18(Clone)
+      position: {x: -0.005361542, y: -0.0015794507, z: -0.000011127926}
+      rotation: {x: 0.000000059604645, y: -0.00000011920929, z: -0.000000051658, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Balle_Entiere
+      parentName: Chargeur_2
+      position: {x: 0.0005258191, y: 0.0026146444, z: 0.000011127517}
+      rotation: {x: 0.49999988, y: -0.49999997, z: -0.50000006, w: 0.5000001}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rechargeur
+      parentName: _lock18(Clone)
+      position: {x: 0.001892123, y: 0.0025296723, z: -0.000010720342}
+      rotation: {x: 0.000000059604645, y: -0.00000011920929, z: -0.000000051658, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Gachette
+      parentName: _lock18(Clone)
+      position: {x: 0.0017654321, y: 0.0010391021, z: -1.862645e-10}
+      rotation: {x: 0.000000059604645, y: -0.00000011920929, z: -0.000000051658, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Chargeur
+      parentName: _lock18(Clone)
+      position: {x: -0.00092538353, y: -0.0022178015, z: -0.000011127926}
+      rotation: {x: 0.000000059604645, y: -0.00000011920929, z: -0.000000051658, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 0
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
