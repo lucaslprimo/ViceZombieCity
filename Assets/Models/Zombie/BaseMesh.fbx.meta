@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: c6db007c801514617b6d476321a90aa0
+guid: 2a3c2b0406813ed458de04106400a88a
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 19300
   internalIDToNameTable:
-  - first:
-      74: 790155631326702669
-    second: Bras|Action
   - first:
       74: -203655887218126122
     second: mixamo.com
@@ -49,13 +46,11 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
@@ -65,9 +60,6 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 1
-    secondaryUVMinLightmapResolution: 40
-    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:

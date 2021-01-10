@@ -88,6 +88,9 @@ public class FPController : MonoBehaviour
         if (Mathf.Abs(zMove) > 0 || Mathf.Abs(xMove) > 0)
             isWalking = true;
         else isWalking = false;
+
+
+        playerAnim.SetBool("isRunning", isWalking);
     }
 
     private void GetMouseInput()
