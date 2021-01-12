@@ -59,6 +59,7 @@ public class FPController : MonoBehaviour
         soundPlayer = this.GetComponent<AudioSource>();
         cameraRot = cam.transform.localRotation;
         characterRot = this.transform.localRotation;
+
     }
 
     // Update is called once per frame
@@ -116,14 +117,20 @@ public class FPController : MonoBehaviour
             playerAnim.SetTrigger("reload");
     }
 
-    void FixedUpdate()
+    private void LateUpdate()
     {
         Move();
-        RotateCamera();
+        Rotate();
         UpdateCursorLock();
     }
 
-    private void RotateCamera()
+    void FixedUpdate()
+    {
+       
+       
+    }
+
+    private void Rotate()
     {
         cameraRot *= Quaternion.Euler(-xRot, 0, 0);
         characterRot *= Quaternion.Euler(0, yRot, 0);

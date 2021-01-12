@@ -28,6 +28,7 @@ public class WeaponEventsManager : MonoBehaviour
 
     public void OnReloadCocking()
     {
+        player.equipedWeapon.Cock();
         audioSource.clip = cocking;
         audioSource.Play();
     }
