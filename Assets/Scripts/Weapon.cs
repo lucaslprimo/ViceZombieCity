@@ -73,7 +73,7 @@ public class Weapon : MonoBehaviour
     {
         RaycastHit hit;
         
-        if (Physics.Raycast(Camera.main.ScreenToWorldPoint(crossHair.transform.position), player.cam.transform.forward * 1000, out hit))
+        if (Physics.Raycast(Camera.main.ScreenToWorldPoint(crossHair.transform.position), player.fpsCamera.transform.forward * 1000, out hit))
         {
             if (hit.collider.CompareTag("Head"))
             {

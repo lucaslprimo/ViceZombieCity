@@ -10,10 +10,12 @@ public class ZombieController : MonoBehaviour
     NavMeshAgent agent;
     Animator anim;
     public float rotationSpeed = 20f;
+    public float timeToVanish = 10f;
+    public int damage = 20;
+    public Transform colliderAttack;
+    public float attackRadius = 5f;
 
     private int health = 100;
-
-    public float timeToVanish = 10f;
 
     void Start()
     {
@@ -24,8 +26,20 @@ public class ZombieController : MonoBehaviour
 
     void Update()
     {
-        UpdateAgent();
-        UpdateAnim();
+        if(player != null)
+        {
+            UpdateAgent();
+            UpdateAnim();
+            CheckAttack();
+        }
+       
+    }
+
+    private void CheckAttack()
+    {
+        if(anim.GetFloat("distance") <= 1.5f){
+            anim.SetTrigger("attack");
+        }
     }
 
     public void TakeDamage(int damage)
@@ -49,10 +63,26 @@ public class ZombieController : MonoBehaviour
         //TODO: Animation to vanish much fancy, like pixel desintagration
     }
 
+    public void VerifyHitsPlayer()
+    {
+        Collider[] colliders = Physics.OverlapSphere(colliderAttack.position, attackRadius);
+        if (colliders != null && colliders.Length > 0)
+        {          
+            FPController playerController = player.GetComponent<FPController>();
+            playerController.TakeDamage(damage);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(colliderAttack.position, attackRadius);
+    }
+
     private void UpdateAnim()
     {
         anim.SetFloat("distance", Vector3.Distance(this.transform.position, player.transform.position));
-        
     }
 
     private void UpdateAgent()
@@ -74,7 +104,7 @@ public class ZombieController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
     }
 
     private void OnAnimatorMove()

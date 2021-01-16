@@ -20,19 +20,23 @@ public class AimingPoint : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        
-        Debug.DrawRay(Camera.main.ScreenToWorldPoint(this.transform.position), player.cam.transform.forward * 1000, Color.red);
-        if (Physics.Raycast(Camera.main.ScreenToWorldPoint(this.transform.position), player.cam.transform.forward * 1000, out hit))
+
+        if (player.enabled)
         {
-            if(hit.collider.CompareTag("Body") || hit.collider.CompareTag("Head"))
-                image.color = Color.red;
+            Debug.DrawRay(Camera.main.ScreenToWorldPoint(this.transform.position), player.fpsCamera.transform.forward * 1000, Color.red);
+            if (Physics.Raycast(Camera.main.ScreenToWorldPoint(this.transform.position), player.fpsCamera.transform.forward * 1000, out hit))
+            {
+                if (hit.collider.CompareTag("Body") || hit.collider.CompareTag("Head"))
+                    image.color = Color.red;
+                else
+                    image.color = Color.white;
+            }
             else
+            {
                 image.color = Color.white;
+            }
         }
-        else
-        {
-            image.color = Color.white;
-        }
+        
     }
 
     public RaycastHit GetHitObject() {

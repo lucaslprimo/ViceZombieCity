@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FPController : MonoBehaviour
 {
     [Header("Objecs Required")]
-    public GameObject cam;
+    public GameObject fpsCamera;
+    public Camera headCamera;
     public Animator playerAnim;
     public Animator camAnim;
     public Transform head;
@@ -29,6 +31,8 @@ public class FPController : MonoBehaviour
     public AudioClip land;
     public AudioClip[] steps;
 
+    private int health = 100;
+
     AudioSource soundPlayer;
 
     float MinimumX = -90;
@@ -50,6 +54,7 @@ public class FPController : MonoBehaviour
     int stepIndex = 0;
     float walkingTime = 0;
     Vector3 headBobbingTargetPosition;
+    bool isAlive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +62,7 @@ public class FPController : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         capsule = this.GetComponent<CapsuleCollider>();
         soundPlayer = this.GetComponent<AudioSource>();
-        cameraRot = cam.transform.localRotation;
+        cameraRot = fpsCamera.transform.localRotation;
         characterRot = this.transform.localRotation;
 
     }
@@ -65,8 +70,17 @@ public class FPController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetKeyInputs();
-        GetMouseInput();
+        if (isAlive) {
+            GetKeyInputs();
+            GetMouseInput();
+        }
+        else
+        {
+            fpsCamera.transform.LookAt(fpsCamera.transform.position + this.transform.forward);
+            playerAnim.SetTrigger("die");
+            this.enabled = false;
+        }
+      
     }
 
     private void GetKeyInputs()
@@ -94,6 +108,25 @@ public class FPController : MonoBehaviour
         playerAnim.SetBool("isRunning", isWalking);
     }
 
+    internal void TakeDamage(int damage)
+    {
+        health -= damage;     
+        if(health <= 0)
+        {
+            isAlive = false;
+            //fpsCamera.transform.LookAt(this.transform.forward + transform.position);
+            playerAnim.applyRootMotion = true;
+            fpsCamera.GetComponent<Camera>().enabled = false;
+            headCamera.enabled  = true;
+            //playerAnim.SetTrigger("die");
+            //this.enabled = false;
+        }
+        else
+        {
+            playerAnim.SetTrigger("hit");
+        }
+    }
+
     private void GetMouseInput()
     {
         yRot = Input.GetAxis("Mouse X") * Ysensitivity;
@@ -119,9 +152,12 @@ public class FPController : MonoBehaviour
 
     private void LateUpdate()
     {
-        Move();
-        Rotate();
-        UpdateCursorLock();
+        if (isAlive)
+        {
+            Move();
+            Rotate();
+            UpdateCursorLock();
+        }
     }
 
     void FixedUpdate()
@@ -138,7 +174,7 @@ public class FPController : MonoBehaviour
         cameraRot = ClampRotationAroundXAxis(cameraRot);
 
         this.transform.localRotation = characterRot;
-        cam.transform.localRotation = cameraRot;
+        fpsCamera.transform.localRotation = cameraRot;
     }
 
     private void HeadBobbing()
@@ -148,10 +184,10 @@ public class FPController : MonoBehaviour
 
         headBobbingTargetPosition = head.transform.position + CalculateHeadBobOffset(walkingTime);
 
-        cam.transform.position = Vector3.Lerp(cam.transform.position, headBobbingTargetPosition, headBobSmoothing);
+        fpsCamera.transform.position = Vector3.Lerp(fpsCamera.transform.position, headBobbingTargetPosition, headBobSmoothing);
 
-        if ((cam.transform.position - headBobbingTargetPosition).magnitude <= 0.001)
-            cam.transform.position = headBobbingTargetPosition;
+        if ((fpsCamera.transform.position - headBobbingTargetPosition).magnitude <= 0.001)
+            fpsCamera.transform.position = headBobbingTargetPosition;
     }
 
     private Vector3 CalculateHeadBobOffset(float time)
