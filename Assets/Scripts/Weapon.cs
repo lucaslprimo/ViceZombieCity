@@ -15,6 +15,9 @@ public class Weapon : MonoBehaviour
     public int maxCapacity;
     public WeaponType weaponType;
     public Transform firePoint;
+    public GameObject muzzle;
+    public GameObject blood;
+    public float hitForce;
 
     AimingPoint crossHair;
     private FPController player;
@@ -52,8 +55,10 @@ public class Weapon : MonoBehaviour
         {
             if (munition > 0)
             {
-                anim.SetTrigger("shoot");
                 VerifyIfHits();
+                Instantiate(muzzle, firePoint.position, firePoint.transform.rotation);
+                StartCoroutine(AlertNearbyListeners());
+                anim.SetTrigger("shoot");
                 munition--;
                 return true;
             }
@@ -69,6 +74,17 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private IEnumerator AlertNearbyListeners()
+    {
+        ZombieController[] zombies = FindObjectsOfType<ZombieController>();
+
+        foreach(ZombieController zombie in zombies)
+        {
+            zombie.ListenSound(player.transform.position, 60);
+        }
+        yield return null;
+    }
+
     private void VerifyIfHits()
     {
         RaycastHit hit;
@@ -77,14 +93,27 @@ public class Weapon : MonoBehaviour
         {
             if (hit.collider.CompareTag("Head"))
             {
+                Instantiate(blood, hit.point, Quaternion.identity);
                 ZombieController zombie = hit.collider.GetComponentInParent<ZombieController>();
                 zombie.Kill();
+                applyForce(hit, zombie);
             }
             else if (hit.collider.CompareTag("Body"))
             {
+                Instantiate(blood, hit.point, Quaternion.identity);
                 ZombieController zombie = hit.collider.GetComponentInParent<ZombieController>();
                 zombie.TakeDamage(damage);
+                applyForce(hit, zombie);
             }
+        }
+    }
+
+    private void applyForce(RaycastHit hit, ZombieController zombie)
+    {
+        if (hit.rigidbody != null)
+        {
+            Vector3 hitDirection = zombie.transform.position - player.transform.position;
+            hit.rigidbody.AddForce(hitDirection.normalized * hitForce);
         }
     }
 

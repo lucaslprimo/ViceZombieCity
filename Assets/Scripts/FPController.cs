@@ -12,6 +12,7 @@ public class FPController : MonoBehaviour
     public Animator camAnim;
     public Transform head;
     public Weapon equipedWeapon;
+    public Transform leftFist;
 
     [Header("Move Settings")]
     public float speed = 0.1f;
@@ -19,6 +20,10 @@ public class FPController : MonoBehaviour
     [Range(1,10)] public float Ysensitivity = 2;
     public int jumpForce = 300;
     public float stepsInterval = 0.5f;
+
+    [Header("Punch Settings")]
+    public float punchRadius;
+    public int punchDamage;
 
     [Header("Head Bobbing")]
     public float bobFrequency = 5f;
@@ -30,6 +35,8 @@ public class FPController : MonoBehaviour
     public AudioClip jump;
     public AudioClip land;
     public AudioClip[] steps;
+    public AudioClip die;
+    public AudioClip hitGround;
 
     private int health = 100;
 
@@ -55,6 +62,7 @@ public class FPController : MonoBehaviour
     float walkingTime = 0;
     Vector3 headBobbingTargetPosition;
     bool isAlive = true;
+  
 
     // Start is called before the first frame update
     void Start()
@@ -80,7 +88,18 @@ public class FPController : MonoBehaviour
             playerAnim.SetTrigger("die");
             this.enabled = false;
         }
-      
+    }
+
+    public void OnPlayerDie()
+    {
+        soundPlayer.clip = die;
+        soundPlayer.Play();
+    }
+
+    public void OnHitGround()
+    {
+        soundPlayer.clip = hitGround;
+        soundPlayer.Play();
     }
 
     private void GetKeyInputs()
@@ -97,6 +116,9 @@ public class FPController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
             Jump();
 
+        if (Input.GetKeyDown(KeyCode.Q))
+            FirePunch();
+
         xMove = Input.GetAxis("Horizontal") * speed;
         zMove = Input.GetAxis("Vertical") * speed;
 
@@ -108,18 +130,20 @@ public class FPController : MonoBehaviour
         playerAnim.SetBool("isRunning", isWalking);
     }
 
+    private void FirePunch()
+    {
+        playerAnim.SetTrigger("punch");
+    }
+
     internal void TakeDamage(int damage)
     {
         health -= damage;     
         if(health <= 0)
         {
             isAlive = false;
-            //fpsCamera.transform.LookAt(this.transform.forward + transform.position);
             playerAnim.applyRootMotion = true;
             fpsCamera.GetComponent<Camera>().enabled = false;
             headCamera.enabled  = true;
-            //playerAnim.SetTrigger("die");
-            //this.enabled = false;
         }
         else
         {
@@ -154,7 +178,6 @@ public class FPController : MonoBehaviour
     {
         if (isAlive)
         {
-            Move();
             Rotate();
             UpdateCursorLock();
         }
@@ -162,8 +185,10 @@ public class FPController : MonoBehaviour
 
     void FixedUpdate()
     {
-       
-       
+        if (isAlive)
+        {
+            Move();
+        }
     }
 
     private void Rotate()
@@ -319,4 +344,30 @@ public class FPController : MonoBehaviour
             Cursor.visible = true;
         }
     }
+
+
+    public bool CheckPunchHits()
+    {
+        Collider[] colliders = Physics.OverlapSphere(leftFist.position, punchRadius);
+        if (colliders != null && colliders.Length > 0)
+        {
+            ZombieController zombieController = colliders[0].GetComponentInParent<ZombieController>();
+            if (zombieController != null)
+            {
+                zombieController.TakeDamage(punchDamage);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(leftFist.position, punchRadius);
+    }
+
 }
