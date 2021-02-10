@@ -762,7 +762,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413860539604248087}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8000002, z: -0.12800002}
+  m_LocalPosition: {x: 0, y: 0.8000002, z: 0}
   m_LocalScale: {x: 0.5278401, y: 0.5278401, z: 0.5278401}
   m_Children:
   - {fileID: 3423105227572021577}
@@ -822,8 +822,8 @@ Camera:
   m_GameObject: {fileID: 1413860539604248087}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.227451, g: 0.79215693, b: 0.7725491, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1296,13 +1296,13 @@ MonoBehaviour:
   head: {fileID: 7727843505142549890}
   equipedWeapon: {fileID: 5708933721886741125}
   leftFist: {fileID: 1597564509}
-  speed: 0.1
+  speed: 0.2
   Xsensitivity: 2.58
   Ysensitivity: 2.47
   jumpForce: 200
   stepsInterval: 0.5
   punchRadius: 0.3
-  punchDamage: 50
+  punchDamage: 100
   bobFrequency: 6
   bobHorizontalAmplitude: 0.1
   bobHVerticalAmplitude: 0.1
@@ -1312,6 +1312,8 @@ MonoBehaviour:
   steps:
   - {fileID: 8300000, guid: f9f215b5390bb4aa29e23838f7cbbf18, type: 3}
   - {fileID: 8300000, guid: 7693178d495a84b1fa6a181c9d5cdb8d, type: 3}
+  die: {fileID: 8300000, guid: 6e43178ae0caf5a4dba553fd60aa989f, type: 3}
+  hitGround: {fileID: 8300000, guid: fb2f4ef5f46c7564ba7730af42c81f53, type: 3}
 --- !u!82 &2388028237021795193
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2937,8 +2939,8 @@ Camera:
   m_GameObject: {fileID: 7065057130349492282}
   m_Enabled: 0
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.9559521, g: 0.9487807, b: 0.9716981, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.227451, g: 0.79215693, b: 0.7725491, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3202,7 +3204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e337e5d7581eb47d9b26ba3dbc54415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
+  damage: 40
   maxCapacity: 8
   weaponType: 1
   firePoint: {fileID: 5708933722784103416}

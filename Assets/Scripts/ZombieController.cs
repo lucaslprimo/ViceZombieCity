@@ -76,7 +76,7 @@ public class ZombieController : MonoBehaviour
                 Patrol();
                 break;
             case PatrolAgent.State.INVESTIGATE:
-                anim.SetBool("isWalking", true);
+                anim.SetBool("isRunning", true);
                 Investigate();
                 break;
             case PatrolAgent.State.CHASE:
@@ -102,10 +102,18 @@ public class ZombieController : MonoBehaviour
         Vector3 playerDirection = player.transform.position - transform.position;
         float angle = Vector3.Angle(playerDirection, transform.forward);
 
+        
+
         if(angle <= visionAngle)
         {
             //Can see
-            patrolAgent.OnChangeTargetVision(Vector3.Distance(player.transform.position, this.transform.position));
+
+            RaycastHit hit;
+            Physics.Raycast(this.transform.position, playerDirection * 100, out hit);
+            if (hit.collider.CompareTag("Player"))
+            {
+                patrolAgent.OnChangeTargetVision(Vector3.Distance(player.transform.position, this.transform.position));
+            }
         }
 
         patrolAgent.OnChangeRange(Vector3.Distance(player.transform.position, this.transform.position));
@@ -113,7 +121,7 @@ public class ZombieController : MonoBehaviour
 
     private void Patrol()
     {
-        if (Vector3.Distance(this.transform.position, targetPosition) < 1)
+        if (Vector3.Distance(this.transform.position, targetPosition) <= 3)
         {
             Vector3 randomPoint = startPosition + Random.insideUnitSphere * patrolRadius;
             NavMeshHit hit;
