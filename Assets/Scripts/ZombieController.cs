@@ -33,6 +33,8 @@ public class ZombieController : MonoBehaviour
     [SerializeField] AudioClip hitGround;
     [SerializeField] AudioClip[] idle;
 
+    [SerializeField] GameObject minimapTracking;
+
     private int health = 100;
     private PatrolAgent patrolAgent;
     private PatrolAgent.State lastState;
@@ -102,12 +104,8 @@ public class ZombieController : MonoBehaviour
         Vector3 playerDirection = player.transform.position - transform.position;
         float angle = Vector3.Angle(playerDirection, transform.forward);
 
-        
-
         if(angle <= visionAngle)
         {
-            //Can see
-
             RaycastHit hit;
             Physics.Raycast(this.transform.position, playerDirection * 100, out hit);
             if (hit.collider.CompareTag("Player"))
@@ -167,6 +165,7 @@ public class ZombieController : MonoBehaviour
 
     public void Kill()
     {
+        minimapTracking.SetActive(false);
         CancelInvoke("PlayIdleSound");
         anim.SetTrigger("die");
         this.enabled = false;
@@ -195,7 +194,20 @@ public class ZombieController : MonoBehaviour
     private void Chase()
     {
         visionAngle = limitVisionAngle;
-        NavMeshGoTo(player.transform.position);
+
+        Vector3 playerDirection = player.transform.position - transform.position;
+
+        RaycastHit hit;
+        Physics.Raycast(this.transform.position, playerDirection * 100, out hit);
+        if (hit.collider.CompareTag("Player"))
+        {
+            NavMeshGoTo(player.transform.position);
+        }
+        else
+        {
+            targetPosition = player.transform.position;
+            patrolAgent.LostTargetChase();
+        }
     }
 
     private void NavMeshGoTo(Vector3 position)

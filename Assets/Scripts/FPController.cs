@@ -13,6 +13,7 @@ public class FPController : MonoBehaviour
     public Transform head;
     public Weapon equipedWeapon;
     public Transform leftFist;
+    public Animator flashAnimator;
 
     [Header("Move Settings")]
     public float speed = 0.1f;
@@ -20,6 +21,8 @@ public class FPController : MonoBehaviour
     [Range(1,10)] public float Ysensitivity = 2;
     public int jumpForce = 300;
     public float stepsInterval = 0.5f;
+    public float coldownDash = 2f;
+    public float dashForce = 2f;
 
     [Header("Punch Settings")]
     public float punchRadius;
@@ -41,6 +44,7 @@ public class FPController : MonoBehaviour
     private int health = 100;
 
     AudioSource soundPlayer;
+    public AudioSource soundFlash;
 
     float MinimumX = -90;
     float MaximumX = 90;
@@ -62,7 +66,10 @@ public class FPController : MonoBehaviour
     float walkingTime = 0;
     Vector3 headBobbingTargetPosition;
     bool isAlive = true;
-  
+
+    bool shouldDash = false;
+
+    float timeDash = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +109,11 @@ public class FPController : MonoBehaviour
         soundPlayer.Play();
     }
 
+    public void FlashSound()
+    {
+        soundFlash.Play();
+    }
+
     private void GetKeyInputs()
     {
         if (Input.GetMouseButtonDown(1))
@@ -119,6 +131,9 @@ public class FPController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
             FirePunch();
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            Dash();
+
         xMove = Input.GetAxis("Horizontal") * speed;
         zMove = Input.GetAxis("Vertical") * speed;
 
@@ -128,6 +143,14 @@ public class FPController : MonoBehaviour
 
 
         playerAnim.SetBool("isRunning", isWalking);
+    }
+
+    private void Dash()
+    {
+        if(Time.time > timeDash)
+        {
+            shouldDash = true;
+        }
     }
 
     private void FirePunch()
@@ -237,7 +260,20 @@ public class FPController : MonoBehaviour
     {
         if (isWalking)
         {
-            transform.position += this.transform.forward * zMove + this.transform.right * xMove;
+          
+            if(shouldDash)
+            {
+                flashAnimator.SetTrigger("flash");
+                FlashSound();
+                shouldDash = false;
+                timeDash = Time.time + coldownDash;
+                transform.position += (this.transform.forward * zMove + this.transform.right * xMove) * Time.deltaTime * dashForce;
+            }
+            else
+            {
+                transform.position += (this.transform.forward * zMove + this.transform.right * xMove) * Time.deltaTime;
+            }
+            
             HeadBobbing();
             if (!steping) {
                 InvokeRepeating("PlayStepSound", 0, stepsInterval);

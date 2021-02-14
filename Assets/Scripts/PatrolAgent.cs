@@ -57,7 +57,7 @@ public class PatrolAgent
 
     public void OnHearSound(float soundPower, float distanceFromSource)
     {
-        if(state == State.PATROL )
+        if(state == State.PATROL)
         {
             if (distanceFromSource <= soundPower)
             {
@@ -65,6 +65,15 @@ public class PatrolAgent
             }
         }
     }
+
+    public void LostTargetChase()
+    {
+        if (state == State.CHASE)
+        {
+            state = State.INVESTIGATE;
+        }
+    }
+
 
     public void InvestigationOver()
     {
