@@ -119,6 +119,7 @@ public class ZombieController : MonoBehaviour
 
     private void Patrol()
     {
+        visionAngle = limitVisionAngle;
         if (Vector3.Distance(this.transform.position, targetPosition) <= 3)
         {
             Vector3 randomPoint = startPosition + Random.insideUnitSphere * patrolRadius;
@@ -193,8 +194,6 @@ public class ZombieController : MonoBehaviour
 
     private void Chase()
     {
-        visionAngle = limitVisionAngle;
-
         Vector3 playerDirection = player.transform.position - transform.position;
 
         RaycastHit hit;

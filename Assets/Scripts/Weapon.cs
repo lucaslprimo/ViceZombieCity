@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
@@ -18,12 +19,12 @@ public class Weapon : MonoBehaviour
     public GameObject muzzle;
     public GameObject blood;
     public float hitForce;
+    public Text uiTextBullets;
 
     AimingPoint crossHair;
     private FPController player;
     private int munition;
     private Animator anim;
-
 
     private void Start()
     {
@@ -31,7 +32,7 @@ public class Weapon : MonoBehaviour
         crossHair = GameObject.FindGameObjectWithTag("Crosshair").GetComponent<AimingPoint>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<FPController>();
         anim = GetComponent<Animator>();
-
+        uiTextBullets.text = string.Format("{0} / {1}", munition, player.bulletsAvailable);
     }
 
     public int GetMunitionAvailable()
@@ -60,6 +61,7 @@ public class Weapon : MonoBehaviour
                 StartCoroutine(AlertNearbyListeners());
                 anim.SetTrigger("shoot");
                 munition--;
+                uiTextBullets.text = string.Format("{0} / {1}", munition, player.bulletsAvailable);
                 return true;
             }
             else
@@ -131,7 +133,8 @@ public class Weapon : MonoBehaviour
                 int spareBullets = 0;
                 if (bullets > maxCapacity)
                 {
-                    spareBullets = bullets - maxCapacity;
+                    
+                    spareBullets = bullets - (maxCapacity - munition);
                     munition = maxCapacity;
                 }
                 else
@@ -139,6 +142,7 @@ public class Weapon : MonoBehaviour
                     munition = bullets;
                 }
 
+                uiTextBullets.text = string.Format("{0} / {1}", munition, spareBullets);
 
                 return spareBullets;
             }

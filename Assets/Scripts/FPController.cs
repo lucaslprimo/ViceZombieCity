@@ -45,6 +45,8 @@ public class FPController : MonoBehaviour
 
     AudioSource soundPlayer;
     public AudioSource soundFlash;
+    public int maxBulletsLoad;
+    public int bulletsAvailable;
 
     float MinimumX = -90;
     float MaximumX = 90;
@@ -193,7 +195,7 @@ public class FPController : MonoBehaviour
 
     private void Reload()
     {
-        if(equipedWeapon.GetMunitionAvailable() < equipedWeapon.maxCapacity)
+        if(equipedWeapon.GetMunitionAvailable() < equipedWeapon.maxCapacity && bulletsAvailable > 0)
             playerAnim.SetTrigger("reload");
     }
 

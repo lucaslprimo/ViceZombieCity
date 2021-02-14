@@ -25,13 +25,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722379422}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1907660410}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -2.0000134, y: -1.000001}
@@ -58,14 +58,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8018868, g: 0.3215112, b: 0.37602633, a: 1}
+  m_Color: {r: 0.6934395, g: 0.1318975, b: 0.7169812, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 360262440f8154174bafa9b0fa557f14, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -420,7 +420,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b0c5d0aa41360ba4ea5396eaa93d9cc4, type: 3}
   - {fileID: 8300000, guid: 6e23642ed4ea60b49a4ba6708f09427f, type: 3}
   - {fileID: 8300000, guid: 65082485fe068e34ab1dd03c41e9c6ed, type: 3}
-  minimapTracking: {fileID: 722379422}
+  minimapTracking: {fileID: 1907660409}
 --- !u!195 &8296172668439656122
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -442,7 +442,7 @@ NavMeshAgent:
   m_Height: 4.14
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 2
+  m_ObstacleAvoidanceType: 4
 --- !u!82 &3109802496615870828
 AudioSource:
   m_ObjectHideFlags: 0

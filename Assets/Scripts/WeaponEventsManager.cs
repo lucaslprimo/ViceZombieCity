@@ -39,7 +39,7 @@ public class WeaponEventsManager : MonoBehaviour
         mpReload.clip = magazine;
         mpReload.Play();
 
-        player.equipedWeapon.Reload(player.equipedWeapon.maxCapacity);
+        player.bulletsAvailable = player.equipedWeapon.Reload(player.bulletsAvailable);
     }
 
     public void OnPunch()
