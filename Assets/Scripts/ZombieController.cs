@@ -231,7 +231,10 @@ public class ZombieController : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        navMeshAgent.velocity = anim.deltaPosition / Time.deltaTime;
+        if(Time.deltaTime > 0)
+        {
+            navMeshAgent.velocity = anim.deltaPosition / Time.deltaTime;
+        }
     }
 
     public void OnStep1()

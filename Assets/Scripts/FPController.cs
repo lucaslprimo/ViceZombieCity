@@ -81,7 +81,7 @@ public class FPController : MonoBehaviour
         soundPlayer = this.GetComponent<AudioSource>();
         cameraRot = fpsCamera.transform.localRotation;
         characterRot = this.transform.localRotation;
-
+        SetCursorLock(true);
     }
 
     // Update is called once per frame
@@ -118,33 +118,36 @@ public class FPController : MonoBehaviour
 
     private void GetKeyInputs()
     {
-        if (Input.GetMouseButtonDown(1))
-            Aim();
+        if (!GameManager.Instance.IsPaused())
+        {
+            if (Input.GetMouseButtonDown(1))
+                Aim();
 
-        if (Input.GetKeyDown(KeyCode.R))
-            Reload();
+            if (Input.GetKeyDown(KeyCode.R))
+                Reload();
 
-        if (Input.GetMouseButtonDown(0))
-            Fire();
+            if (Input.GetMouseButtonDown(0))
+                Fire();
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-            Jump();
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+                Jump();
 
-        if (Input.GetKeyDown(KeyCode.Q))
-            FirePunch();
+            if (Input.GetKeyDown(KeyCode.Q))
+                FirePunch();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            Dash();
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                Dash();
 
-        xMove = Input.GetAxis("Horizontal") * speed;
-        zMove = Input.GetAxis("Vertical") * speed;
+            xMove = Input.GetAxis("Horizontal") * speed;
+            zMove = Input.GetAxis("Vertical") * speed;
 
-        if (Mathf.Abs(zMove) > 0 || Mathf.Abs(xMove) > 0)
-            isWalking = true;
-        else isWalking = false;
+            if (Mathf.Abs(zMove) > 0 || Mathf.Abs(xMove) > 0)
+                isWalking = true;
+            else isWalking = false;
 
 
-        playerAnim.SetBool("isRunning", isWalking);
+            playerAnim.SetBool("isRunning", isWalking);
+        }
     }
 
     private void Dash()
@@ -169,6 +172,7 @@ public class FPController : MonoBehaviour
             playerAnim.applyRootMotion = true;
             fpsCamera.GetComponent<Camera>().enabled = false;
             headCamera.enabled  = true;
+            GameManager.Instance.ShowGameOver();
         }
         else
         {
@@ -178,9 +182,12 @@ public class FPController : MonoBehaviour
 
     private void GetMouseInput()
     {
-        yRot = Input.GetAxis("Mouse X") * Ysensitivity;
-        xRot = Input.GetAxis("Mouse Y") * Xsensitivity;
-    }
+        if (!GameManager.Instance.IsPaused())
+        {
+            yRot = Input.GetAxis("Mouse X") * Ysensitivity;
+            xRot = Input.GetAxis("Mouse Y") * Xsensitivity;
+        }
+    } 
 
     private void Aim()
     {
@@ -201,7 +208,7 @@ public class FPController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (isAlive)
+        if (isAlive && !GameManager.Instance.IsPaused())
         {
             Rotate();
             UpdateCursorLock();

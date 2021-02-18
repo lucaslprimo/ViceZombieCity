@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
         crossHair = GameObject.FindGameObjectWithTag("Crosshair").GetComponent<AimingPoint>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<FPController>();
         anim = GetComponent<Animator>();
-        uiTextBullets.text = string.Format("{0} / {1}", munition, player.bulletsAvailable);
+        UpdateUI();
     }
 
     public int GetMunitionAvailable()
@@ -50,6 +50,11 @@ public class Weapon : MonoBehaviour
         return munition == 0;
     }
 
+    public void UpdateUI()
+    {
+        uiTextBullets.text = string.Format("{0} / {1}", munition, player.bulletsAvailable);
+    }
+
     public bool Shoot()
     {
         if (weaponType == WeaponType.RANGED)
@@ -61,7 +66,7 @@ public class Weapon : MonoBehaviour
                 StartCoroutine(AlertNearbyListeners());
                 anim.SetTrigger("shoot");
                 munition--;
-                uiTextBullets.text = string.Format("{0} / {1}", munition, player.bulletsAvailable);
+                UpdateUI();
                 return true;
             }
             else
@@ -131,9 +136,8 @@ public class Weapon : MonoBehaviour
             else
             {
                 int spareBullets = 0;
-                if (bullets > maxCapacity)
+                if (bullets >= maxCapacity)
                 {
-                    
                     spareBullets = bullets - (maxCapacity - munition);
                     munition = maxCapacity;
                 }
