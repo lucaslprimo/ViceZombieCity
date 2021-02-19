@@ -171,8 +171,13 @@ public class ZombieController : MonoBehaviour
         anim.SetTrigger("die");
         this.enabled = false;
         Destroy(gameObject, timeToVanish);
+    }
 
-        //TODO: Animation to vanish much fancy, like pixel desintagration
+    public void Desitegrate()
+    {
+        minimapTracking.SetActive(false);
+        this.enabled = false;
+        Destroy(gameObject);
     }
 
     public void VerifyHitsPlayer()

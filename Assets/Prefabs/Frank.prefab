@@ -1291,6 +1291,8 @@ MonoBehaviour:
   firePoint: {fileID: 3892613651360317302}
   muzzle: {fileID: 1096893357605941319, guid: 25f6016c6d166f24b8f4cd491d8be0d5, type: 3}
   blood: {fileID: 2221995251146239344, guid: 5ababdf93f5bba544b0c1e055bc19b23, type: 3}
+  explosion: {fileID: 1718732012587365969, guid: a0511a311c71f44ff84b4bcfde4bdac6,
+    type: 3}
   hitForce: 2000
   uiTextBullets: {fileID: 1233597886}
 --- !u!95 &2216011725787586935

@@ -407,7 +407,7 @@ MonoBehaviour:
   damage: 100
   colliderAttack: {fileID: 6241284784845039757}
   attackRadius: 0.3
-  timeToVanish: 10
+  timeToVanish: 60
   mp1: {fileID: 3109802496615870828}
   mp2: {fileID: 879679358}
   step1: {fileID: 8300000, guid: f9f215b5390bb4aa29e23838f7cbbf18, type: 3}

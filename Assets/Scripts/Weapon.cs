@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     public Transform firePoint;
     public GameObject muzzle;
     public GameObject blood;
+    public GameObject explosion;
     public float hitForce;
     public Text uiTextBullets;
 
@@ -100,17 +101,15 @@ public class Weapon : MonoBehaviour
         {
             if (hit.collider.CompareTag("Head"))
             {
-                Instantiate(blood, hit.point, Quaternion.identity);
+                Instantiate(explosion, hit.point, Quaternion.identity);
                 ZombieController zombie = hit.collider.GetComponentInParent<ZombieController>();
-                zombie.Kill();
-                applyForce(hit, zombie);
+                zombie.Desitegrate();
             }
             else if (hit.collider.CompareTag("Body"))
             {
                 Instantiate(blood, hit.point, Quaternion.identity);
                 ZombieController zombie = hit.collider.GetComponentInParent<ZombieController>();
                 zombie.TakeDamage(damage);
-                applyForce(hit, zombie);
             }
         }
     }

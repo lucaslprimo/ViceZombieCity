@@ -5,11 +5,12 @@ using UnityEngine;
 public class Bullets : MonoBehaviour
 {
     private FPController player;
+    private AudioSource soundPlayer;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<FPController>();
-        
+        soundPlayer = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,7 +24,8 @@ public class Bullets : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if(player.bulletsAvailable + player.equipedWeapon.maxCapacity > player.maxBulletsLoad)
+            soundPlayer.Play();
+            if (player.bulletsAvailable + player.equipedWeapon.maxCapacity > player.maxBulletsLoad)
             {
                 player.bulletsAvailable = player.maxBulletsLoad;
             }
@@ -32,7 +34,7 @@ public class Bullets : MonoBehaviour
                 player.bulletsAvailable += player.equipedWeapon.maxCapacity;
             }
             player.equipedWeapon.UpdateUI();
-            Destroy(gameObject);
+            Destroy(gameObject,0.5f);
         }
     }
 }
