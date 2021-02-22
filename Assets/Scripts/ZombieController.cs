@@ -101,20 +101,23 @@ public class ZombieController : MonoBehaviour
 
     private void LookAround()
     {
-        Vector3 playerDirection = player.transform.position - transform.position;
-        float angle = Vector3.Angle(playerDirection, transform.forward);
-
-        if(angle <= visionAngle)
+        if (player)
         {
-            RaycastHit hit;
-            Physics.Raycast(this.transform.position, playerDirection * 100, out hit);
-            if (hit.collider.CompareTag("Player"))
-            {
-                patrolAgent.OnChangeTargetVision(Vector3.Distance(player.transform.position, this.transform.position));
-            }
-        }
+            Vector3 playerDirection = player.transform.position - transform.position;
+            float angle = Vector3.Angle(playerDirection, transform.forward);
 
-        patrolAgent.OnChangeRange(Vector3.Distance(player.transform.position, this.transform.position));
+            if (angle <= visionAngle)
+            {
+                RaycastHit hit;
+                Physics.Raycast(this.transform.position, playerDirection * 100, out hit);
+                if (hit.collider.CompareTag("Player"))
+                {
+                    patrolAgent.OnChangeTargetVision(Vector3.Distance(player.transform.position, this.transform.position));
+                }
+            }
+
+            patrolAgent.OnChangeRange(Vector3.Distance(player.transform.position, this.transform.position));
+        }
     }
 
     private void Patrol()

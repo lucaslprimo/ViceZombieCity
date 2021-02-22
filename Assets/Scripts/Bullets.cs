@@ -9,7 +9,7 @@ public class Bullets : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<FPController>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<FPController>();
         soundPlayer = GetComponent<AudioSource>();
     }
 

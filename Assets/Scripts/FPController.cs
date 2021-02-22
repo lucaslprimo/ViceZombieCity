@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FPController : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class FPController : MonoBehaviour
     public Transform leftFist;
     public Animator flashAnimator;
 
+    [SerializeField]
+    private Slider sliderDashCooldown;
+    [SerializeField]
+    private Image imageCoolDown;
+
     [Header("Move Settings")]
     public float speed = 0.1f;
-    [Range(1,10)] public float Xsensitivity = 2;
-    [Range(1,10)] public float Ysensitivity = 2;
+    [Range(1, 10)] public float Xsensitivity = 2;
+    [Range(1, 10)] public float Ysensitivity = 2;
     public int jumpForce = 300;
     public float stepsInterval = 0.5f;
     public float coldownDash = 2f;
@@ -33,6 +39,7 @@ public class FPController : MonoBehaviour
     public float bobHorizontalAmplitude = 0.1f;
     public float bobHVerticalAmplitude = 0.1f;
     [Range(0, 1)] public float headBobSmoothing;
+
 
     [Header("Sounds")]
     public AudioClip jump;
@@ -54,7 +61,7 @@ public class FPController : MonoBehaviour
     float zMove;
     float xRot;
     float yRot;
-    
+
     Rigidbody rb;
     CapsuleCollider capsule;
     Quaternion cameraRot;
@@ -72,6 +79,8 @@ public class FPController : MonoBehaviour
     bool shouldDash = false;
 
     float timeDash = 0f;
+
+    public bool isLocked = true;
 
     // Start is called before the first frame update
     void Start()
@@ -99,6 +108,28 @@ public class FPController : MonoBehaviour
         }
     }
 
+    public void LockPlayer(bool locked)
+    {
+        isLocked = locked;
+    }
+
+    IEnumerator UpdateDashUI()
+    {
+        var tempColor = imageCoolDown.color;
+        tempColor.a = 0.5f;
+        imageCoolDown.color = tempColor;
+        while (timeDash > Time.time)
+        {
+            Debug.Log((coldownDash - (timeDash - Time.time)) / coldownDash );
+            sliderDashCooldown.value = (coldownDash - (timeDash - Time.time)) / coldownDash;
+            
+            yield return null;
+        }
+
+        tempColor.a = 1f;
+        imageCoolDown.color = tempColor;
+    }
+
     public void OnPlayerDie()
     {
         soundPlayer.clip = die;
@@ -118,7 +149,7 @@ public class FPController : MonoBehaviour
 
     private void GetKeyInputs()
     {
-        if (!GameManager.Instance.IsPaused())
+        if (!isLocked)
         {
             if (Input.GetMouseButtonDown(1))
                 Aim();
@@ -128,9 +159,6 @@ public class FPController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
                 Fire();
-
-            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-                Jump();
 
             if (Input.GetKeyDown(KeyCode.Q))
                 FirePunch();
@@ -182,7 +210,7 @@ public class FPController : MonoBehaviour
 
     private void GetMouseInput()
     {
-        if (!GameManager.Instance.IsPaused())
+        if (!isLocked)
         {
             yRot = Input.GetAxis("Mouse X") * Ysensitivity;
             xRot = Input.GetAxis("Mouse Y") * Xsensitivity;
@@ -191,6 +219,15 @@ public class FPController : MonoBehaviour
 
     private void Aim()
     {
+        if (playerAnim.GetBool("isAiming"))
+        {
+            speed += 3f;
+        }
+        else
+        {
+            speed -= 3f;
+        }
+
         playerAnim.SetBool("isAiming", !playerAnim.GetBool("isAiming"));
         camAnim.SetBool("isAiming", !camAnim.GetBool("isAiming"));
     }
@@ -203,12 +240,19 @@ public class FPController : MonoBehaviour
     private void Reload()
     {
         if(equipedWeapon.GetMunitionAvailable() < equipedWeapon.maxCapacity && bulletsAvailable > 0)
+        {
+            if (playerAnim.GetBool("isAiming"))
+            {
+                Aim();
+            }
+            
             playerAnim.SetTrigger("reload");
+        }
     }
 
     private void LateUpdate()
     {
-        if (isAlive && !GameManager.Instance.IsPaused())
+        if (isAlive && !isLocked)
         {
             Rotate();
             UpdateCursorLock();
@@ -272,10 +316,12 @@ public class FPController : MonoBehaviour
           
             if(shouldDash)
             {
+                
                 flashAnimator.SetTrigger("flash");
                 FlashSound();
                 shouldDash = false;
                 timeDash = Time.time + coldownDash;
+                StartCoroutine(UpdateDashUI());
                 transform.position += (this.transform.forward * zMove + this.transform.right * xMove) * Time.deltaTime * dashForce;
             }
             else
